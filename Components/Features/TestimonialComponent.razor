@@ -1,0 +1,50 @@
+@using PathFinder.Data
+@inject DatabaseContext _db;
+
+
+
+
+<!-- Testimonial Start -->
+        <div class="container-xxl py-5 wow fadeInUp" data-wow-delay="0.1s">
+            <div class="container">
+                <h1 class="text-center mb-5">Our Clients Say!!!</h1>
+                <div class="owl-carousel testimonial-carousel">
+                    
+                    
+                    @foreach(var item in testimonials){
+                    
+                    <!-- Testimonial Card Start-->
+                    
+                    <div class="testimonial-item bg-light rounded p-4">
+                        <i class="fa fa-quote-left fa-2x text-primary mb-3"></i>
+                        <p>@item.Review</p>
+                        <div class="d-flex align-items-center">
+                            <img class="img-fluid flex-shrink-0 rounded" src="Testimonial_Images/@item.Image" style="width: 50px; height: 50px;">
+                            <div class="ps-3">
+                                <h5 class="mb-1">@item.Name</h5>
+                                <small>@item.Occupation</small>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Testimonial Card End-->
+                    
+                    }
+                    
+                    
+                </div>
+            </div>
+        </div>
+        <!-- Testimonial End -->
+
+
+
+@code {
+    public IEnumerable<Testimonial> testimonials{ get; set; }
+
+    protected override void OnInitialized(){
+        testimonials = _db.Testimonials;
+        base.OnInitialized();
+    }
+
+}

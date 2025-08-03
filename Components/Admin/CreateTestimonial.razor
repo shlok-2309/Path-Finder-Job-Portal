@@ -1,0 +1,92 @@
+@page "/Admin/CreateTestimonial"
+@using Microsoft.AspNetCore.Authorization
+@using PathFinder.Data
+
+@inject DatabaseContext _db;
+
+@inject IWebHostEnvironment env;
+
+@layout AdminLayout
+@attribute [Authorize]
+
+
+<div class="row justify-content-center">
+    
+    <div class="col-8 d-flex justify-content-center">
+        <h3> Create Testimonial</h3>
+    </div>
+    
+    <div class="col-8 d-flex justify-content-center">
+        @if(flag == true){
+            <div class="alert alert-success" role="alert">
+                <strong> Testimonial added successfully  </strong> <a href="/Admin/ShowTestimonial">Click here</a> to show Testimonials.
+            </div>
+        }
+    </div>
+    
+    <div class="col-8 d-flex justify-content-center">
+
+        <EditForm class="row g-3" method="post" enctype="multipart/form-data" Enhance="true" Model="testimonials" FormName="CreateTestimonialFrom" OnValidSubmit="CreateTestimonials">
+            <DataAnnotationsValidator/>
+            <div class="col-6">
+                <label class="form-label">Name : </label> 
+                <InputText class="form-control" @bind-Value="testimonials.Name"></InputText>
+                <ValidationMessage class="text-danger" For="@(() => testimonials.Name)" />
+            </div>
+
+           
+            <div class="col-6">
+                <label class="form-label">Occupation : </label>
+                <InputText class="form-control" @bind-Value="testimonials.Occupation"></InputText>
+                <ValidationMessage class="text-danger" For="@(() => testimonials.Occupation)" />
+            </div>
+            
+            <div class="col-6">
+                <label class="form-label">Reviews : </label>
+                <InputText class="form-control" @bind-Value="testimonials.Review"></InputText>
+                <ValidationMessage class="text-danger" For="@(() => testimonials.Review)" />
+            </div>
+            
+            <div class="col-12">
+                <label class="form-label">Upload Photo : </label>
+                <InputFile class="form-control" name="testimonials.Photo" />
+            </div>
+
+            <div class="col-12">
+                <button class="btn btn-success mt-3" type="submit">Create Testimonial</button>
+            </div>
+        </EditForm>
+
+    </div>
+</div>
+
+
+
+
+@code {
+    
+    private bool flag = false;
+    
+    [SupplyParameterFromForm]
+    public Testimonial testimonials{ get; set; } = new();
+
+    public void CreateTestimonials(){
+
+        string ImageName = testimonials.Photo.FileName;
+        var FolderPath = Path.Combine(env.WebRootPath, "Testimonial_Images");
+        var ImagePath = Path.Combine(FolderPath, ImageName);
+
+        var myFileStream = new FileStream(ImagePath, FileMode.Create);
+        
+        testimonials.Photo.CopyTo(myFileStream);
+
+        testimonials.Image = ImageName;
+        
+        _db.Testimonials.Add(testimonials);
+        _db.SaveChanges();
+        
+        flag = true;
+
+        testimonials = new();
+    }
+}

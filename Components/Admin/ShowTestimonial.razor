@@ -1,0 +1,252 @@
+@page "/Admin/ShowTestimonial"
+@using Microsoft.AspNetCore.Authorization
+@using PathFinder.Data
+@using PathFinder.Model
+@inject DatabaseContext _db;
+
+@inject IWebHostEnvironment env;
+
+@rendermode InteractiveServer
+
+@layout AdminLayout
+@attribute [Authorize]
+
+
+<div class="row justify-content-center">
+   <div class="col-md-10 d-flex justify-content-center">
+      
+      @if (testimonials == null){
+         <table class="table placeholder-glow">
+            <thead>
+            <tr>
+               <th colspan="8" class="text-center">
+                  <h3>List of Testimonial</h3>
+               </th>
+            </tr>
+            <tr>
+               <th scope="col">#</th>
+               <th scope="col">Image</th>
+               <th scope="col">Name</th>
+               <th scope="col">Occupation</th>
+               <th scope="col">Review</th>
+               <th scope="col" colspan="2">Action</th>
+            </tr>
+            </thead>
+            <tbody>
+            
+            <tr>
+               <th scope="row">
+                  <span class="col-6 placeholder"></span>
+               </th>
+               <td> <span class="col-6 placeholder"></span></td>
+               <td> <span class="col-6 placeholder"></span></td>
+               <td> <span class="col-6 placeholder"></span></td>
+               <td> <span class="col-6 placeholder"></span></td>
+               <td>
+                  <span class="col-6 placeholder"></span>
+               </td>
+               <td>
+                  <span class="col-6 placeholder"></span>
+                  @* <button class="btn btn-danger" @onclick="@(()=>@Delete(item.Id))">Delete</button> *@
+               </td>
+            </tr>
+            
+            </tbody>
+         </table>
+      }
+      else{
+         <table class="table">
+            <thead>
+            <tr>
+               <th colspan="8" class="text-center">
+                  <h3>List of Testimonial</h3>
+               </th>
+            </tr>
+            <tr>
+               <th scope="col">#</th>
+               <th scope="col">Image</th>
+               <th scope="col">Name</th>
+               <th scope="col">Occupation</th>
+               <th scope="col">Review</th>
+               <th scope="col" colspan="2">Action</th>
+            </tr>
+            </thead>
+            <tbody>
+            @foreach (var item in testimonials){
+               <tr>
+                  <th scope="row">@item.Id</th>
+                  <td> <img src="Testimonial_Images/@item.Image" height="100px"/> </td>
+                  <td>@item.Name</td>
+                  <td>@item.Occupation</td>
+                  <td>@item.Review</td>
+                  <td>
+                     <button type="button" @onclick="@(()=>@FindById(item.Id))" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                        Edit
+                     </button>
+                  </td>
+                  <td>
+                     <button type="button" @onclick="@(()=>@FindById(item.Id))" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#deleteModal">
+                        Delete
+                     </button>
+
+                     @* <button class="btn btn-danger" @onclick="@(()=>@Delete(item.Id))">Delete</button> *@
+                  </td>
+               </tr>
+            }
+            </tbody>
+         </table>
+      }
+      
+   </div>
+</div>
+
+
+
+<!-- Delete Modal -->
+<div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+   <div class="modal-dialog">
+      <div class="modal-content">
+         <div class="modal-header">
+            <h3 class="modal-title fs-5" id="exampleModalLabel">Delete Testimonial</h3>
+         </div>
+         <div class="modal-body">
+            Are you sure you want to delete this record? 
+         </div>
+         <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            <button type="button" @onclick="@(() => Delete())" data-bs-dismiss="modal" class="btn btn-danger">Delete</button>
+         </div>
+      </div>
+   </div>
+</div>
+
+
+<!-- Update Modal -->
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+   <div class="modal-dialog">
+      <div class="modal-content">
+         <div class="modal-header">
+            <h3 class="modal-title fs-5" id="exampleModalLabel1">Update Jobs</h3>
+         </div>
+         <div class="modal-body">
+            <div class="row justify-content-center">
+               <div class="col-12 d-flex justify-content-center">
+                  <EditForm class="row g-3" method="post" enctype="multipart/form-data" Enhance="true" Model="SelectedTestimonial" FormName="UpdateTestimonialFrom" OnValidSubmit="UpdateTestimonialMethod">
+                     <DataAnnotationsValidator/>
+                     <div class="col-6">
+                        <label class="form-label">Job Title : </label> 
+                        <InputText class="form-control" @bind-Value="SelectedTestimonial.Name"></InputText>
+                        <ValidationMessage class="text-danger" For="@(() => SelectedTestimonial.Name)" />
+                     </div>
+
+                     <div class="col-6">
+                        <label class="form-label">Job Title : </label> 
+                        <InputText class="form-control" @bind-Value="SelectedTestimonial.Occupation"></InputText>
+                        <ValidationMessage class="text-danger" For="@(() => SelectedTestimonial.Occupation)" />
+                     </div>
+            
+                     <div class="col-6">
+                        <label class="form-label">Salary : </label>
+                        <InputText class="form-control" @bind-Value="SelectedTestimonial.Review"></InputText>
+                        <ValidationMessage class="text-danger" For="@(() => SelectedTestimonial.Review)" />
+                     </div>
+                     
+            
+                     <div class="col-12">
+                        <label class="form-label">Upload Photo : </label>
+                        <InputFile class="form-control" OnChange="LoadFile" name="testimonials.Photo" />
+                     </div>
+
+                     <div class="col-12">
+                        <button class="btn btn-success mt-3" type="submit" data-bs-dismiss="modal" >Update Testimonial</button>
+                     </div>
+                  </EditForm>
+                  
+               </div>
+            </div>
+         </div>
+         <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+         </div>
+      </div>
+      
+      
+   </div>
+</div>
+
+
+
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+
+
+
+
+
+@code {
+
+   IBrowserFile browserFile;
+   
+    public IEnumerable<Testimonial> testimonials{ get; set; }
+    
+    
+    [SupplyParameterFromForm]
+    public Testimonial SelectedTestimonial{ get; set; } = new();
+
+    protected override void OnInitialized(){
+       testimonials = _db.Testimonials;
+       base.OnInitialized();
+    }
+
+    public void Delete(){
+       _db.Testimonials.Remove(SelectedTestimonial);
+       _db.SaveChanges();
+    }
+
+    private async Task UpdateTestimonialMethod(){
+       if (browserFile == null){
+          _db.Testimonials.Update(SelectedTestimonial);
+          _db.SaveChanges();
+       }
+       else{
+          string ImageName = browserFile.Name;
+          string Oldimage = SelectedTestimonial.Image;
+          
+          DeleteImage(Oldimage);
+
+          var FolderPAth = Path.Combine(env.WebRootPath, "Testimonial_Images");
+          var ImagePath = Path.Combine(FolderPAth, ImageName);
+
+          var myFileStream = new FileStream(ImagePath, FileMode.Create);
+          
+          await browserFile.OpenReadStream(Int64.MaxValue).CopyToAsync(myFileStream);
+          
+          myFileStream.Close();
+          
+          SelectedTestimonial.Image = ImageName;
+
+          _db.Testimonials.Update(SelectedTestimonial);
+          _db.SaveChanges();
+       }
+       
+       
+    }
+    
+    
+    private void FindById(int Id){
+       SelectedTestimonial = _db.Testimonials.Find(Id);
+    }
+
+    public void LoadFile(InputFileChangeEventArgs e){
+       browserFile = e.File;
+    }
+
+    private void DeleteImage(string ImageName){
+       string _ImageName = ImageName;
+       var FolderPath = Path.Combine(env.WebRootPath, "Testimonial_Images");
+       var ImagePath = Path.Combine(FolderPath, _ImageName);
+       if (File.Exists(ImagePath)){
+          File.Delete(ImagePath);
+       }
+    }
+}

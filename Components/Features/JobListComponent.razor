@@ -1,0 +1,221 @@
+@using PathFinder.Data
+@inject DatabaseContext _db;
+@inject IWebHostEnvironment env
+@rendermode InteractiveServer
+
+<!-- Jobs Start -->
+<div class="container-xxl py-2">
+    <div class="container">
+        <h1 class="text-center mb-5 wow fadeInUp" data-wow-delay="0.1s">Job Listing</h1>
+        <div class="tab-class text-center wow fadeInUp" data-wow-delay="0.3s">
+            <ul class="nav nav-pills d-inline-flex justify-content-center border-bottom mb-5">
+                <li class="nav-item">
+                    <a class="d-flex align-items-center text-start mx-3 ms-0 pb-3 active" @onclick="LoadAllJobs"
+                        data-bs-toggle="pill" href="#tab-1">
+                        <h6 class="mt-n1 mb-0">All Jobs</h6>
+                    </a>
+                </li>
+
+                @foreach (var item in catagories)
+                {
+                    <li class="nav-item">
+                        <a class="d-flex align-items-center text-start mx-3 ms-0 pb-3 active"
+                            @onclick="@(() => GetJobByCatagory(@item.Name))" data-bs-toggle="pill" href="#tab-1">
+                            <h6 class="mt-n1 mb-0">@item.Name</h6>
+                        </a>
+                    </li>
+                }
+
+            </ul>
+
+
+            <div class="tab-content">
+                <div id="tab-1" class="tab-pane fade show p-0 active" style="margin: 0 50px;">
+                    @foreach (var job in Jobs)
+                    {
+                        <!-- job item starting-->
+
+                        <div class="job-item p-3 mb-2">
+                            <div class="row g-4">
+                                <div class="col-sm-12 col-md-8 d-flex align-items-center">
+                                    <img class="flex-shrink-0 img-fluid border rounded" src="Images/@job.Image" alt=""
+                                        style="width: 80px; height: 80px;">
+                                    <div class="text-start ps-4">
+                                        <h5 class="mb-3">@job.Name</h5>
+                                        <span class="text-truncate me-3"><i
+                                                class="fa fa-map-marker-alt text-primary me-2"></i>@job.Location</span>
+                                        <span class="text-truncate me-3"><i
+                                                class="far fa-clock text-primary me-2"></i>@job.Nature</span>
+                                        <span class="text-truncate me-0"><i
+                                                class="far fa-money-bill-alt text-primary me-2"></i>@job.Salary</span>
+                                    </div>
+                                </div>
+                                <div
+                                    class="col-sm-12 col-md-4 d-flex flex-column align-items-start align-items-md-end justify-content-center">
+                                    <div class="d-flex mb-3">
+                                        <a class="btn btn-light btn-square me-3" href=""><i
+                                                class="far fa-heart text-primary"></i></a>
+                                        @* <a class="btn btn-primary" href="">Apply Now</a> *@
+
+                                        <button type="button" @onclick="@(() => SelectedJobs(@job.Name))"
+                                            class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                                            Apply Now
+                                        </button>
+
+                                    </div>
+                                    <small class="text-truncate"><i class="far fa-calendar-alt text-primary me-2"></i>Last
+                                        Date to Apply: @job.LastDateToApply</small>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- job item Ending-->
+                    }
+
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Jobs End -->
+
+
+
+
+<!-- Apply Form Start -->
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 class="modal-title fs-5" id="exampleModalLabel">Applying for @SelectedJob</h2>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body" style="padding: 0 20px 20px 20px;">
+
+                <div class="row justify-content-center">
+                    <EditForm class="row g-3" method="post" enctype="multipart/form-data" Model="A_jobs" Enhance="true"
+                        FormName="CreateJobFrom" OnValidSubmit="ApplyJobMethod">
+                        <DataAnnotationsValidator />
+                        <div class="col-12">
+                            <label class="form-label">Full Name: </label>
+                            <InputText class="form-control" @bind-Value="A_jobs.Name"></InputText>
+                            <ValidationMessage class="text-danger font" For="@(() => A_jobs.Name)" />
+                        </div>
+
+                        <div class="col-12">
+                            <label class="form-label">Email : </label>
+                            <InputText class="form-control" @bind-Value="A_jobs.Email"></InputText>
+                            <ValidationMessage class="text-danger" For="@(() => A_jobs.Email)" />
+                        </div>
+                        <div class="col-12">
+                            <label class="form-label">Contact No. : </label>
+                            <InputText class="form-control" @bind-Value="A_jobs.Phone"></InputText>
+                            <ValidationMessage class="text-danger" For="@(() => A_jobs.Phone)" />
+                        </div>
+
+                        <div class="col-12">
+                            <label class="form-label">Experience : </label>
+                            <InputText class="form-control" @bind-Value="A_jobs.Experience"></InputText>
+                            <ValidationMessage class="text-danger" For="@(() => A_jobs.Experience)" />
+                        </div>
+
+                        <div class="col-12">
+                            <label class="form-label">Higher Education : </label>
+                            <InputText class="form-control" @bind-Value="A_jobs.Qualification"></InputText>
+                            <ValidationMessage class="text-danger" For="@(() => A_jobs.Qualification)" />
+                        </div>
+
+                        <div class="col-12">
+                            <label class="form-label">Percentage/CGPA : </label>
+                            <InputText class="form-control" @bind-Value="A_jobs.Percentage"></InputText>
+                            <ValidationMessage class="text-danger" For="@(() => A_jobs.Percentage)" />
+                        </div>
+
+                        <div class="col-12">
+                            <label class="form-label">Resume : </label>
+                            <InputFile class="form-control" OnChange="HandleFileSelected" />
+                        </div>
+
+
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                            <button class="btn btn-primary" type="submit">Apply</button>
+                        </div>
+                    </EditForm>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<!-- Apply Form End -->
+
+
+@code {
+    public IEnumerable<Catagory> catagories { get; set; }
+    public IEnumerable<Job> Jobs { get; set; }
+
+
+    public string SelectedJob { get; set; }
+
+
+    [SupplyParameterFromForm]
+    public AppliedJobs A_jobs { get; set; } = new();
+
+    private IBrowserFile selectedFile;
+
+    protected override void OnInitialized()
+    {
+
+        catagories = _db.Catagories;
+        Jobs = _db.Jobs;
+        base.OnInitialized();
+    }
+
+
+    private void LoadAllJobs()
+    {
+        Jobs = _db.Jobs;
+    }
+
+    private void GetJobByCatagory(string catName)
+    {
+        Jobs = _db.Jobs.Where(x => x.Nature == catName).ToList();
+    }
+
+
+    private void SelectedJobs(string jobName)
+    {
+        SelectedJob = jobName;
+    }
+
+
+
+    private void HandleFileSelected(InputFileChangeEventArgs e)
+    {
+        selectedFile = e.File;
+    }
+
+
+    private async Task ApplyJobMethod()
+    {
+        if (selectedFile != null)
+        {
+            string fName = selectedFile.Name;
+            var FolderPath = Path.Combine(env.WebRootPath, "Resume");
+            var ResumePath = Path.Combine(FolderPath, fName);
+
+            var myFileStream = new FileStream(ResumePath, FileMode.Create);
+            await selectedFile.OpenReadStream(Int64.MaxValue).CopyToAsync(myFileStream);
+            // A_jobs.CV.CopyTo(myFileStream);
+            A_jobs.Resume = fName;
+        }
+
+        A_jobs.AppliedFor = SelectedJob;
+        _db.Applied_Jobs.Add(A_jobs);
+        await _db.SaveChangesAsync();
+        A_jobs = new();
+    }
+
+}

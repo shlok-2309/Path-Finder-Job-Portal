@@ -1,0 +1,78 @@
+@page "/Admin/CreateCatagory"
+@using Microsoft.AspNetCore.Authorization
+@using PathFinder.Components.Layout
+@using PathFinder.Data
+@using PathFinder.Model
+
+@inject DatabaseContext _db
+@inject NavigationManager navManager
+
+@layout AdminLayout
+
+@attribute [Authorize(Roles = "admin")]
+
+
+<div class="row justify-content-center">
+    
+    <div class="col-8 d-flex justify-content-center">
+        <h3> Create Catagory</h3>
+    </div>
+    <div class="col-8 d-flex justify-content-center">
+        @if(flag == true){
+            <div class="alert alert-success" role="alert">
+                <strong> Catagory added successfully  </strong> <a href="/Admin/ShowCatagories">Click here</a> to show catagories
+            </div>
+        }
+    </div>
+    
+    <div class="col-8 d-flex justify-content-center">
+
+        <EditForm class="row g-3" Enhance="true" Model="catagory" FormName="CreateCatagoryFrom" OnValidSubmit="CreateCatagoryMethod">
+            <DataAnnotationsValidator/>
+            <div class="col-6">
+                <label class="form-label">Name : </label>
+                <InputText class="form-control" @bind-Value="catagory.Name"></InputText>
+                <ValidationMessage class="text-danger" For="@(() => catagory.Name)" />
+            </div>
+
+            <div class="col-6">
+                <label class="form-label">Slug : </label>
+                <InputText class="form-control" @bind-Value="catagory.Slug"></InputText>
+                <ValidationMessage class="text-danger" For="@(() => catagory.Slug)" />
+            </div>
+
+            <div class="col-12">
+                <label class="form-label">Description : </label>
+                <InputText class="form-control" @bind-Value="catagory.Description"></InputText>
+                <ValidationMessage class="text-danger" For="@(() => catagory.Description)" />
+            </div>
+
+            <div class="col-12">
+                <button class="btn btn-success mt-3" type="submit">Create Catagory</button>
+            </div>
+        </EditForm>
+
+    </div>
+</div>
+
+
+
+@code {
+
+    private bool flag = false;
+    
+    [SupplyParameterFromForm]
+    public Catagory catagory{ get; set; }= new();
+
+    
+    private void CreateCatagoryMethod(){
+        _db.Catagories.Add(catagory);
+        _db.SaveChanges();
+
+        flag = true;
+
+        catagory = new();
+
+        // navManager.NavigateTo("/Admin/ShowCatagories");
+    }
+}

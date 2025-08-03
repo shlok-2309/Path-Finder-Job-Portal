@@ -1,0 +1,66 @@
+@using PathFinder.Data
+@inject DatabaseContext _db
+
+@inject NavigationManager navManager
+
+@rendermode InteractiveServer
+
+
+
+<!-- Search Start -->
+<div class="container-fluid bg-primary mb-5 wow fadeIn" data-wow-delay="0.1s" style="padding: 35px;">
+    <div class="container">
+        <div class="row g-2">
+            <div class="col-md-10">
+                <div class="row g-2">
+                    <div class="col-md-4">
+                        <input type="text" @bind="keyword" class="form-control border-0" placeholder="Keyword" />
+                    </div>
+                    <div class="col-md-4">
+                        <select @bind="SelectedCatagory" class="form-select border-0">
+                            <option selected>Select Category</option>
+                            
+                            @foreach (var item in catagory){
+                                <option value="@item">@item</option>
+                            }
+                            
+                        </select>
+                    </div>
+                    <div class="col-md-4">
+                        <select @bind="SelectedLocation" class="form-select border-0">
+                            <option selected>Select Location</option>
+                            @foreach (var item in job){
+                                <option value="@item">@item</option>  
+                            }
+                            
+                        </select>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-2">
+                <button class="btn btn-dark border-0 w-100" @onclick=@(()=>navManager.NavigateTo($"Search/{keyword}/{SelectedCatagory}/{SelectedLocation}",true))>Search</button>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Search End -->
+
+
+@code {
+    public string keyword;
+
+    public string SelectedCatagory;
+    
+    public string SelectedLocation;
+    
+    public List<string> catagory{ get; set; }
+    
+    public List<string> job{ get; set; }
+
+    protected override void OnInitialized(){
+        catagory = _db.Catagories.Select(x => x.Name).ToList();
+        job = _db.Jobs.Select(x => x.Location).ToList();
+        base.OnInitialized();
+    }
+
+}

@@ -1,0 +1,25 @@
+﻿@using static Microsoft.AspNetCore.Components.Web.RenderMode
+
+<!DOCTYPE html>
+<html lang="en">
+
+
+<head>
+    <HeadOutlet/>
+    <base href="/"/>
+</head>
+
+
+
+<body>
+
+    <Routes />
+    <SectionOutlet SectionName="Frontend-files"/>
+
+    <SectionOutlet SectionName="Backend-files"/>
+
+    <script src="_framework/blazor.web.js"></script>
+
+</body>
+
+</html>

@@ -1,0 +1,206 @@
+@page "/Admin/ShowCatagories"
+@* @rendermode InteractiveServer *@
+@rendermode InteractiveServer
+@* @attribute [StreamRendering]  only for data showing *@
+@using Microsoft.AspNetCore.Authorization
+@using Microsoft.EntityFrameworkCore
+@using PathFinder.Data
+@inject DatabaseContext _db
+@layout AdminLayout
+
+@attribute [Authorize(Roles = "admin")]
+
+<div class="row justify-content-center">
+   <div class="col-md-8 d-flex justify-content-center">
+      
+      @if (Catagory == null){
+         <table class="table placeholder-glow">
+            <thead>
+            <tr>
+               <th colspan="6" class="text-center">
+                  <h3>Show Catagories</h3>
+               </th>
+            </tr>
+            <tr>
+               <th scope="col">#</th>
+               <th scope="col">Name</th>
+               <th scope="col">Description</th>
+               <th scope="col">Slug</th>
+               <th scope="col" colspan="2">Action</th>
+            </tr>
+            </thead>
+            <tbody>
+            
+               <tr>
+                  <th scope="row">
+                     <span class="col-6 placeholder"></span>
+                  </th>
+                  <td> <span class="col-6 placeholder"></span></td>
+                  <td> <span class="col-6 placeholder"></span></td>
+                  <td> <span class="col-6 placeholder"></span></td>
+                  <td>
+                     <span class="col-6 placeholder"></span>
+                  </td>
+                  <td>
+                     <span class="col-6 placeholder"></span>
+                     @* <button class="btn btn-danger" @onclick="@(()=>@Delete(item.Id))">Delete</button> *@
+                  </td>
+               </tr>
+            
+            </tbody>
+         </table>
+      }
+      else{
+         <table class="table">
+            <thead>
+            <tr>
+               <th colspan="6" class="text-center">
+                  <h3>Show Catagories</h3>
+               </th>
+            </tr>
+            <tr>
+               <th scope="col">#</th>
+               <th scope="col">Name</th>
+               <th scope="col">Description</th>
+               <th scope="col">Slug</th>
+               <th scope="col" colspan="2">Action</th>
+            </tr>
+            </thead>
+            <tbody>
+            @foreach (var item in Catagory){
+               <tr>
+                  <th scope="row">@item.Id</th>
+                  <td>@item.Name</td>
+                  <td>@item.Description</td>
+                  <td>@item.Slug</td>
+                  <td>
+                     <button type="button" @onclick="@(() => @FindCatagory(item.Id))" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                        Edit
+                     </button>
+                  </td>
+                  <td>
+
+                     <button type="button" @onclick="@(() => @FindCatagory(item.Id))" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#deleteModal">
+                        Delete
+                     </button>
+
+                     @* <button class="btn btn-danger" @onclick="@(()=>@Delete(item.Id))">Delete</button> *@
+                  </td>
+               </tr>
+            }
+            </tbody>
+         </table>
+      }
+      
+   </div>
+    
+</div>
+
+
+
+
+<!-- Update Modal -->
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+   <div class="modal-dialog">
+      <div class="modal-content">
+         <div class="modal-header">
+            <h3 class="modal-title fs-5" id="exampleModalLabel">Update Catagory</h3>
+         </div>
+         <div class="modal-body">
+            <div class="row justify-content-center">
+               <div class="col-8 d-flex justify-content-center">
+                  <EditForm class="row g-3" Enhance="true" Model="SelectCatagory" FormName="SelectCatagoryFrom" OnValidSubmit="Update">
+                     <DataAnnotationsValidator/>
+                     <div class="col-6">
+                        <label class="form-label">Name : </label>
+                        <InputText class="form-control" @bind-Value="SelectCatagory.Name"></InputText>
+                        <ValidationMessage class="text-danger" For="@(() => SelectCatagory.Name)" />
+                     </div>
+
+                     <div class="col-6">
+                        <label class="form-label">Slug : </label>
+                        <InputText class="form-control" @bind-Value="SelectCatagory.Slug"></InputText>
+                        <ValidationMessage class="text-danger" For="@(() => SelectCatagory.Slug)" />
+                     </div>
+
+                     <div class="col-12">
+                        <label class="form-label">Description : </label>
+                        <InputText class="form-control" @bind-Value="SelectCatagory.Description"></InputText>
+                        <ValidationMessage class="text-danger" For="@(() => SelectCatagory.Description)" />
+                     </div>
+
+                     <div class="col-12">
+                        <button class="btn btn-success mt-3" data-bs-dismiss="modal" type="submit">Create Catagory</button>
+                     </div>
+                  </EditForm>
+                  
+               </div>
+               </div>
+            </div>
+      </div>
+   </div>
+</div>
+
+
+<!-- Delete Modal -->
+<div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+   <div class="modal-dialog">
+      <div class="modal-content">
+         <div class="modal-header">
+            <h3 class="modal-title fs-5" id="exampleModalLabel">Delete Catagory</h3>
+         </div>
+         <div class="modal-body">
+            Are you sure you want to delete this record? 
+         </div>
+         <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            <button type="button" @onclick="@(() => Delete())" data-bs-dismiss="modal" class="btn btn-danger">Delete</button>
+         </div>
+      </div>
+   </div>
+</div>
+
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+
+@code {
+    
+   // public IEnumerable<Catagory> Catagory{ get; set; }
+   public IList<Catagory> Catagory{ get; set; } = null;
+
+   [SupplyParameterFromForm]
+   public Catagory SelectCatagory{ get; set; } = new();
+
+   // protected override void OnInitialized(){
+   //    Catagory = _db.Catagories;
+   // }
+
+   protected override async Task OnInitializedAsync(){
+      // await Task.Delay(5000);
+      Catagory = await _db.Catagories.ToListAsync();
+   }
+
+
+   // private void Delete(int Id){
+   //    var data = _db.Catagories.Find(Id);
+   //    if (data!=null){
+   //       _db.Catagories.Remove(data);
+   //    }
+   //    _db.SaveChanges();
+   //    StateHasChanged();
+   // }
+
+   private void Delete(){
+      _db.Catagories.Remove(SelectCatagory);
+      _db.SaveChanges();
+   }
+   
+   private void Update(){
+      _db.Catagories.Update(SelectCatagory);
+      _db.SaveChanges();
+   }
+
+   private void FindCatagory(int Id){
+      SelectCatagory = _db.Catagories.Find(Id);
+   }
+}

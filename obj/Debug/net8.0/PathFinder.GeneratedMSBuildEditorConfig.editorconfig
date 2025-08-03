@@ -1,0 +1,117 @@
+is_global = true
+build_property.TargetFramework = net8.0
+build_property.TargetPlatformMinVersion = 
+build_property.UsingMicrosoftNETSdkWeb = true
+build_property.ProjectTypeGuids = 
+build_property.InvariantGlobalization = 
+build_property.PlatformNeutralAssembly = 
+build_property.EnforceExtendedAnalyzerRules = 
+build_property._SupportedPlatformList = Linux,macOS,Windows
+build_property.RootNamespace = PathFinder
+build_property.RootNamespace = PathFinder
+build_property.ProjectDir = C:\Users\yadav\OneDrive\Desktop\Path-Finder-Job-Portal\
+build_property.EnableComHosting = 
+build_property.EnableGeneratedComInterfaceComImportInterop = 
+build_property.RazorLangVersion = 8.0
+build_property.SupportLocalizedComponentNames = 
+build_property.GenerateRazorMetadataSourceChecksumAttributes = 
+build_property.MSBuildProjectDirectory = C:\Users\yadav\OneDrive\Desktop\Path-Finder-Job-Portal
+build_property._RazorSourceGeneratorDebug = 
+build_property.EffectiveAnalysisLevelStyle = 8.0
+build_property.EnableCodeStyleSeverity = 
+
+[C:/Users/yadav/OneDrive/Desktop/Path-Finder-Job-Portal/Components/Admin/Access-denied.razor]
+build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50c1xBZG1pblxBY2Nlc3MtZGVuaWVkLnJhem9y
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/yadav/OneDrive/Desktop/Path-Finder-Job-Portal/Components/Admin/CreateCatagory.razor]
+build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50c1xBZG1pblxDcmVhdGVDYXRhZ29yeS5yYXpvcg==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/yadav/OneDrive/Desktop/Path-Finder-Job-Portal/Components/Admin/CreateJob.razor]
+build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50c1xBZG1pblxDcmVhdGVKb2IucmF6b3I=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/yadav/OneDrive/Desktop/Path-Finder-Job-Portal/Components/Admin/CreateTestimonial.razor]
+build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50c1xBZG1pblxDcmVhdGVUZXN0aW1vbmlhbC5yYXpvcg==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/yadav/OneDrive/Desktop/Path-Finder-Job-Portal/Components/Admin/Home.razor]
+build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50c1xBZG1pblxIb21lLnJhem9y
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/yadav/OneDrive/Desktop/Path-Finder-Job-Portal/Components/Admin/Login.razor]
+build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50c1xBZG1pblxMb2dpbi5yYXpvcg==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/yadav/OneDrive/Desktop/Path-Finder-Job-Portal/Components/Admin/Logout.razor]
+build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50c1xBZG1pblxMb2dvdXQucmF6b3I=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/yadav/OneDrive/Desktop/Path-Finder-Job-Portal/Components/Admin/ShowAppliedJobs.razor]
+build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50c1xBZG1pblxTaG93QXBwbGllZEpvYnMucmF6b3I=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/yadav/OneDrive/Desktop/Path-Finder-Job-Portal/Components/Admin/ShowCatagories.razor]
+build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50c1xBZG1pblxTaG93Q2F0YWdvcmllcy5yYXpvcg==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/yadav/OneDrive/Desktop/Path-Finder-Job-Portal/Components/Admin/ShowJobs.razor]
+build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50c1xBZG1pblxTaG93Sm9icy5yYXpvcg==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/yadav/OneDrive/Desktop/Path-Finder-Job-Portal/Components/Admin/ShowTestimonial.razor]
+build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50c1xBZG1pblxTaG93VGVzdGltb25pYWwucmF6b3I=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/yadav/OneDrive/Desktop/Path-Finder-Job-Portal/Components/App.razor]
+build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50c1xBcHAucmF6b3I=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/yadav/OneDrive/Desktop/Path-Finder-Job-Portal/Components/Features/CarouselComponent.razor]
+build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50c1xGZWF0dXJlc1xDYXJvdXNlbENvbXBvbmVudC5yYXpvcg==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/yadav/OneDrive/Desktop/Path-Finder-Job-Portal/Components/Features/JobListComponent.razor]
+build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50c1xGZWF0dXJlc1xKb2JMaXN0Q29tcG9uZW50LnJhem9y
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/yadav/OneDrive/Desktop/Path-Finder-Job-Portal/Components/Features/SearchComponent.razor]
+build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50c1xGZWF0dXJlc1xTZWFyY2hDb21wb25lbnQucmF6b3I=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/yadav/OneDrive/Desktop/Path-Finder-Job-Portal/Components/Features/TestimonialComponent.razor]
+build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50c1xGZWF0dXJlc1xUZXN0aW1vbmlhbENvbXBvbmVudC5yYXpvcg==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/yadav/OneDrive/Desktop/Path-Finder-Job-Portal/Components/Layout/AdminLayout.razor]
+build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50c1xMYXlvdXRcQWRtaW5MYXlvdXQucmF6b3I=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/yadav/OneDrive/Desktop/Path-Finder-Job-Portal/Components/Layout/BlankLayout.razor]
+build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50c1xMYXlvdXRcQmxhbmtMYXlvdXQucmF6b3I=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/yadav/OneDrive/Desktop/Path-Finder-Job-Portal/Components/Pages/Error.razor]
+build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50c1xQYWdlc1xFcnJvci5yYXpvcg==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/yadav/OneDrive/Desktop/Path-Finder-Job-Portal/Components/Pages/Home.razor]
+build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50c1xQYWdlc1xIb21lLnJhem9y
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/yadav/OneDrive/Desktop/Path-Finder-Job-Portal/Components/Pages/Search.razor]
+build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50c1xQYWdlc1xTZWFyY2gucmF6b3I=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/yadav/OneDrive/Desktop/Path-Finder-Job-Portal/Components/Routes.razor]
+build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50c1xSb3V0ZXMucmF6b3I=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/yadav/OneDrive/Desktop/Path-Finder-Job-Portal/Components/_Imports.razor]
+build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50c1xfSW1wb3J0cy5yYXpvcg==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/yadav/OneDrive/Desktop/Path-Finder-Job-Portal/Components/Layout/MainLayout.razor]
+build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50c1xMYXlvdXRcTWFpbkxheW91dC5yYXpvcg==
+build_metadata.AdditionalFiles.CssScope = b-cva5k138mn

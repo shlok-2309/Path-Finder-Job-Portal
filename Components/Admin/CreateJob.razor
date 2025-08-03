@@ -1,0 +1,112 @@
+@page "/Admin/CreateJob"
+@using Microsoft.AspNetCore.Authorization
+@using PathFinder.Data
+
+@inject DatabaseContext _db;
+@inject IWebHostEnvironment env
+@attribute [Authorize(Roles = "admin")]
+
+@layout AdminLayout
+
+
+<div class="row justify-content-center">
+    
+    <div class="col-8 d-flex justify-content-center">
+        <h3> Create Job</h3>
+    </div>
+    
+    <div class="col-8 d-flex justify-content-center">
+        @if(flag == true){
+            <div class="alert alert-success" role="alert">
+                <strong> Jobs added successfully  </strong> <a href="/Admin/ShowJobs">Click here</a> to show Jobs.
+            </div>
+        }
+    </div>
+    
+    <div class="col-8 d-flex justify-content-center">
+
+        <EditForm class="row g-3" method="post" enctype="multipart/form-data" Enhance="true" Model="jobs" FormName="CreateJobFrom" OnValidSubmit="CreateJobMethod">
+            <DataAnnotationsValidator/>
+            <div class="col-6">
+                <label class="form-label">Job Title : </label> 
+                <InputText class="form-control" @bind-Value="jobs.Name"></InputText>
+                <ValidationMessage class="text-danger" For="@(() => jobs.Name)" />
+            </div>
+
+            <div class="col-6">
+                <label class="form-label" >Catagory : </label>
+                <InputSelect class="form-control" @bind-Value="jobs.Nature">
+                    <option value=""> --Select Catagory-- </option>
+                    @foreach (var item in Cat){
+                        <option value="@item.Name">@item.Name</option>
+                    }
+                    
+                </InputSelect>
+            </div>
+            
+            <div class="col-6">
+                <label class="form-label">Job Location : </label> 
+                <InputText class="form-control" @bind-Value="jobs.Location"></InputText>
+                <ValidationMessage class="text-danger" For="@(() => jobs.Location)" />
+            </div>
+            
+            <div class="col-6">
+                <label class="form-label">Salary : </label>
+                <InputText class="form-control" @bind-Value="jobs.Salary"></InputText>
+                <ValidationMessage class="text-danger" For="@(() => jobs.Salary)" />
+            </div>
+            
+            <div class="col-6">
+                <label class="form-label">Last Date To Apply : </label>
+                <InputText class="form-control" @bind-Value="jobs.LastDateToApply"></InputText>
+                <ValidationMessage class="text-danger" For="@(() => jobs.LastDateToApply)" />
+            </div>
+            
+            <div class="col-12">
+                <label class="form-label">Upload Photo : </label>
+                <InputFile class="form-control" name="jobs.Photo" />
+            </div>
+
+            <div class="col-12">
+                <button class="btn btn-success mt-3" type="submit">Create Job</button>
+            </div>
+        </EditForm>
+
+    </div>
+</div>
+
+
+
+@code {
+    
+    private bool flag = false;
+    
+    [SupplyParameterFromForm] public Job jobs{ get; set; } = new();
+    
+    public List<Catagory> Cat{ get; set; }
+
+    private void CreateJobMethod(){
+        string ImageName = jobs.Photo.FileName.ToString();
+        var FolderPath = Path.Combine(env.WebRootPath, "Images");
+        var ImagePath = Path.Combine(FolderPath, ImageName);
+
+        var myFileStream = new FileStream(ImagePath,FileMode.Create);
+        
+        jobs.Photo.CopyTo(myFileStream);
+        jobs.Image = ImageName;
+
+        _db.Jobs.Add(jobs);
+        _db.SaveChanges();
+        
+        flag = true;
+
+        jobs = new();
+
+    }
+
+    protected override void OnInitialized(){
+        Cat = _db.Catagories.ToList();
+        base.OnInitialized();
+    }
+
+}
